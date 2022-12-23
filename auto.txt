@@ -1,0 +1,34 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+import seaborn as sns
+df=pd.read_csv("C:/Users/admin/Downloads/archive (16)/auto-mpg.csv")
+df.head()
+
+df.loc[(df['mpg']>29)&(df['horsepower']<93.5)&(df['weight']<2500)]
+
+df.loc[(df['displacement']>262)&(df['horsepower']>126)&(df['weight'])&(df['weight']<=3500)]
+
+df.loc[(df['horsepower']>140)&(df['weight']>=4500)]
+
+df.loc[(df['acceleration']>140)&(df['weight']<2223)]
+
+df.sort_values(by='cylinders')
+
+df.sort_values(['acceleration','horsepower'],ascending=(1,0))
+
+df.describe()
+
+list1=[col for col in df.columns if df[col].dtype in ['float','int64']]
+df[list].agg(['min','max','sum','mean','median'])
+
+df.groupby(['model year']).count()['horsepower']
+
+
+df.groupby(['model year']).mean()[['acceleration']]
+
+pd.crosstab(df['model year'],df['cylinders'])
+
+pivot1=pd.pivot_table(df,index='model year',aggfunc=np.mean)
+pivot1
