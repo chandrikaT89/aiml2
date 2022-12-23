@@ -1,0 +1,137 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import warnings
+%matplotlib inline
+warnings.filterwarnings('ignore')
+
+df=pd.read_csv("C:/Users/admin/Downloads/archive (15)/HousingData.csv")
+print(df)
+
+df.describe()
+
+df.info()
+
+df1=df.copy()
+df1
+
+df1.isnull().sum()
+
+df1['RAD'].mean()
+
+df1['RAD'].fillna(df1['RAD'].mean(),inplace=True)
+
+df1['RAD'].isnull().sum()
+
+df1.isnull().sum()
+
+corr=df1.corr()
+plt.figure(figsize=(20,10))
+sns.heatmap(corr,annot=True, cmap='coolwarm')
+
+def correlation(dataset,threshold):
+    col_corr=set()
+    corr_matrix=dataset.corr()
+    for i in range(len(corr_matrix.columns)):
+        for j in range(i):
+            if abs(corr_matrix.iloc[i,j])>threshold:
+                col_corr.add(col_name)
+    return col_corr
+
+corr_features=correlation(df,0.7)
+len(set(corr_features))
+
+corr_features
+
+df1.drop(['AGE','NOX','DIS','TAX'],axis=1,inplace=True)
+df1
+
+plt.figure(figsize=(15,5))
+plt.subplot(1,2,1)
+plt.title('CRIM')
+sns.boxplot(df['CRIM'])
+plt.subplot(1,2,2)
+plt.title('CRIM')
+sns.distplot(df1['CRIM'])
+
+plt.figure(figsize=(15,5))
+plt.subplot(1,2,1)
+plt.title('ZN')
+sns.boxplot(df['ZN'])
+plt.subplot(1,2,2)
+plt.title('ZN')
+sns.distplot(df1['ZN'])
+
+plt.figure(figsize=(15,5))
+plt.subplot(1,2,1)
+plt.title('RM')
+sns.boxplot(df['RM'])
+plt.subplot(1,2,2)
+plt.title('RM')
+sns.distplot(df1['RM'])
+
+plt.figure(figsize=(15,5))
+plt.subplot(1,2,1)
+plt.title('MEDV')
+sns.boxplot(df['MEDV'])
+plt.subplot(1,2,2)
+plt.title('MEDV')
+sns.distplot(df1['MEDV'])
+
+q1=df['RM'].quantile(0.25)
+q3=df['RM'].quantile(0.75)
+iqr=q3-q1
+
+q1,q3,iqr
+
+upper_limit=q3+(1.5*iqr)
+lower_limit=q1+(1.5*iqr)
+upper_limit,lower_limit
+
+df1.loc[(df1['RM']>upper_limit)|(df1['RM']<lower_limit)]
+
+df1.loc[(df['RM']>upper_limit),'RM']=upper_limit
+df1.loc[(df['RM']>upper_limit),'RM']=lower_limit
+
+
+plt.figure(figsize=(15,5))
+plt.subplot(1,2,1)
+plt.title('RM')
+sns.boxplot(df['RM'])
+plt.subplot(1,2,2)
+plt.title('RM')
+sns.distplot(df1['RM'])
+
+q1=df['MEDV'].quantile(0.25)
+q3=df['MEDV'].quantile(0.75)
+iqr=q3-q1
+
+df1.loc[(df['MEDV']>upper_limit),'MEDV']=upper_limit
+df1.loc[(df['MEDV']>upper_limit),'MEDV']=lower_limit
+plt.figure(figsize=(15,5))
+plt.subplot(1,2,1)
+plt.title('MEDV')
+sns.boxplot(df['MEDV'])
+plt.subplot(1,2,2)
+plt.title('MEDV')
+sns.distplot(df1['MEDV'])
+
+q1=df['MEDV'].quantile(0.25)
+q3=df['MEDV'].quantile(0.75)
+iqr=q3-q1
+df1.loc[(df['MEDV']>upper_limit),'MEDV']=upper_limit
+df1.loc[(df['MEDV']>upper_limit),'MEDV']=lower_limit
+plt.figure(figsize=(15,5))
+plt.subplot(1,2,1)
+plt.title('MEDV')
+sns.boxplot(df['MEDV'])
+plt.subplot(1,2,2)
+plt.title('MEDV')
+sns.distplot(df1['MEDV'])
+
+x=df1.drop(columns=["MEDV"],axis=1)
+y=df1['MEDV']
+x
+y
+
